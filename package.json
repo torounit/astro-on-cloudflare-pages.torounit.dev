@@ -16,6 +16,8 @@
     "astro": "^3.3.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20230518.0",
+    "wp-types": "^3.63.0",
     "wrangler": "^3.12.0"
   }
 }

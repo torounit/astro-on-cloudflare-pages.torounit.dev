@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { loadAllPosts } from '../lib/loader';
+const runtime = Astro.locals.runtime as any;
+const waitUntil = runtime.waitUntil;
+const POSTS_PER_PAGE = 100;
+
+const currentPage = parseInt(Astro.params?.page || "1", 10);
+const fetchedPosts = await loadAllPosts(runtime.env.WORDPRESS_URL, runtime.env.KV, waitUntil);
+const posts = fetchedPosts.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE)
+const totalPages = Math.ceil(fetchedPosts.length / POSTS_PER_PAGE);
+---
+<Layout title="Welcome to Astro.">
+  <main>
+    <h1>Welcome to Astro.</h1>
+    <ul>
+      {posts.map(post => (
+        <li>
+          <a href={post.link}>{post.title.rendered}</a>
+        </li>
+      ))}
+    </ul>
+    <div>
+      {[...Array(totalPages || 1)].map((_, i) => i + 1).map((page) => (
+        <a href={`/${page}`}>{page}</a>
+      ))}
+    </div>
+  </main>
+</Layout>
+
+<script>
+console.log("hello", "1");
+console.log(runtime);
+</script>
+
+<style>
+</style>
