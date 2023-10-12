@@ -1,5 +1,5 @@
 import type { Store } from "./Store";
-import type { KVNamespacePutOptions } from "@cloudflare/workers-types";
+import type { KVNamespace, KVNamespacePutOptions } from "@cloudflare/workers-types";
 
 export default class KVStore<T> implements Store<T> {
   private name: string;
@@ -9,7 +9,7 @@ export default class KVStore<T> implements Store<T> {
   constructor(
     KV: KVNamespace,
     name: string,
-    options: KVNamespacePutOptions = { expirationTtl: 60},
+    options: KVNamespacePutOptions = { expirationTtl: 60 },
   ) {
     this.KV = KV;
     this.name = name;

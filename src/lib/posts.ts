@@ -14,7 +14,7 @@ export const fetchPosts = async (url: string): Promise<WP_REST_API_Posts> => {
   const request = new Request(createPostsURL(url, currentPage, perPage));
   const response = await fetch(request, {});
   const totalPages = Number(response.headers.get("X-WP-TotalPages"));
-  const data = await response.json() as WP_REST_API_Posts
+  const data = (await response.json()) as WP_REST_API_Posts;
   posts = posts.concat(data);
 
   let results: Promise<WP_REST_API_Posts>[] = [];
@@ -23,7 +23,7 @@ export const fetchPosts = async (url: string): Promise<WP_REST_API_Posts> => {
     const result = limit(async () => {
       console.log(`fetching ${nextRequest.url}`);
       const res = await fetch(nextRequest, {});
-      const data = await res.json() as WP_REST_API_Posts;
+      const data = (await res.json()) as WP_REST_API_Posts;
       console.log(`fetched ${nextRequest.url}`);
       return data;
     });
@@ -34,4 +34,3 @@ export const fetchPosts = async (url: string): Promise<WP_REST_API_Posts> => {
   const paged = responses.flat();
   return [...posts, ...paged];
 };
-
