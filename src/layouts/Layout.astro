@@ -17,8 +17,21 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+	<div class="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 antialiased">
+		<div class="flex justify-between px-4 mx-auto max-w-screen-xl">
+			<slot />
+		</div>
+	</div>
 	</body>
 </html>
 <style is:global>
+p {
+	@apply mb-4;
+	@apply mt-4;
+}
+
+a {
+	@apply text-blue-500;
+	@apply hover:text-blue-700;
+}
 </style>

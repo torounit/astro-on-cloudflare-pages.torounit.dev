@@ -1,0 +1,45 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { loadAllPosts } from '../../lib/loader';
+
+import type { WP_REST_API_Post , WP_REST_API_Posts } from "wp-types";
+
+const runtime = Astro.locals.runtime as any;
+const waitUntil = runtime.waitUntil;
+const POSTS_PER_PAGE = 100;
+
+const pickPost = (posts: WP_REST_API_Posts, id: number) => {
+  return posts.find((post: WP_REST_API_Post) => {
+    return post.id === id;
+  });
+}
+
+const postId = parseInt(Astro.params?.id || "0", 10);
+
+if ( ! postId ) {
+  throw new Response(null, {
+    status: 404,
+    statusText: "Not Found",
+  });
+}
+
+const fetchedPosts = await loadAllPosts(runtime.env.WORDPRESS_URL, runtime.env.KV, waitUntil);
+const post = pickPost(fetchedPosts, postId);
+if ( ! post ) {
+  throw new Response(null, {
+    status: 404,
+    statusText: "Not Found",
+  });
+}
+---
+<Layout title="Welcome to Astro.">
+  <main>
+    <article class="mx-auto w-full max-w-5xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
+      <h1
+        class="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white"
+        set:html={post.title.rendered}
+      />
+      <Fragment set:html={post.content.rendered} />
+    </article>
+  </main>
+</Layout>

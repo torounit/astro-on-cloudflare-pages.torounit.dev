@@ -12,26 +12,21 @@ const totalPages = Math.ceil(fetchedPosts.length / POSTS_PER_PAGE);
 ---
 <Layout title="Welcome to Astro.">
   <main>
-    <h1>Welcome to Astro.</h1>
+    <p>Powered by Astro</p>
+    <h1 class="mb-12 text-xl font-bold">Posts</h1>
     <ul>
       {posts.map(post => (
-        <li>
-          <a href={post.link}>{post.title.rendered}</a>
+        <li class="mb-8 text-2xl font-extrabold leading-tight text-gray-900 lg:mb-12 dark:text-white">
+          <a href={`/posts/${post.id}`}>{post.title.rendered}</a>
         </li>
       ))}
     </ul>
     <div>
       {[...Array(totalPages || 1)].map((_, i) => i + 1).map((page) => (
-        <a href={`/${page}`}>{page}</a>
+        <a
+          class={`mr-4 ${ page === currentPage ? "text-black" : "text-blue-500" }`}
+          href={`/${page}`}>{page}</a>
       ))}
     </div>
   </main>
 </Layout>
-
-<script>
-console.log("hello", "1");
-console.log(runtime);
-</script>
-
-<style>
-</style>
