@@ -6,7 +6,7 @@ const createPostsURL = (url: string, page: number, perPage: number) => {
 };
 
 export const fetchPosts = async (url: string): Promise<WP_REST_API_Posts> => {
-  const limit = pLimit(4);
+  const limit = pLimit(5);
   const perPage = 100;
   let currentPage = 1;
   let posts: WP_REST_API_Posts = [];
