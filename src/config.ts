@@ -1,2 +1,2 @@
-export const TTL = 60 * 2;
-export const STALE_TTL = 60 * 30;
+export const TTL = 60 * 5;
+export const STALE_TTL = 60 * 60 * 12;
